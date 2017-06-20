@@ -127,7 +127,7 @@ Add the following code to the `sagas.js` module:
 
 ```javascript
 import { delay } from 'redux-saga'
-import { put, takeEvery, all } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 
 // Our worker Saga: will perform the async increment task
 export function* incrementAsync() {
@@ -158,6 +158,11 @@ Next, we created another Saga `watchIncrementAsync`. We use `takeEvery`, a helpe
 Now we have 2 Sagas, and we need to start them both at once. To do that, we'll add a `rootSaga` that is responsible for starting our other Sagas. In the same file `sagas.js`, add the following code:
 
 ```javascript
+import { delay } from 'redux-saga'
+import { put, takeEvery, all } from 'redux-saga/effects'
+
+// ...
+
 // single entry point to start all Sagas at once
 export default function* rootSaga() {
   yield all([
@@ -253,9 +258,10 @@ Well, `redux-saga` provides a way to make the above statement possible. Instead 
 `delay(1000)` directly inside `incrementAsync`, we'll call it *indirectly*:
 
 ```javascript
-// ...
 import { delay } from 'redux-saga'
-import { put, call, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery, all, call } from 'redux-saga/effects'
+
+// ...
 
 export function* incrementAsync() {
   // use the call Effect
