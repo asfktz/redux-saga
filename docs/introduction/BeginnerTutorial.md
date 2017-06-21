@@ -82,14 +82,21 @@ So far, our Saga does nothing special. It just logs a message then exits.
 
 Now let's add something closer to the original Counter demo. To illustrate asynchronous calls, we will add another button to increment the counter 1 second after the click.
 
-First thing's first, we'll provide an additional callback `onIncrementAsync` to the UI component.
+First thing's first, we'll provide an additional button and callback `onIncrementAsync` to the UI component.
 
 ```javascript
 const Counter = ({ value, onIncrement, onDecrement, onIncrementAsync }) =>
   <div>
-    {' '}
     <button onClick={onIncrementAsync}>
       Increment after 1 second
+    </button>
+    {' '}
+    <button onClick={onIncrement}>
+      Increment
+    </button>
+    {' '}
+    <button onClick={onDecrement}>
+      Decrement
     </button>
     <hr />
     <div>
@@ -128,6 +135,8 @@ Add the following code to the `sagas.js` module:
 ```javascript
 import { delay } from 'redux-saga'
 import { put, takeEvery } from 'redux-saga/effects'
+
+// ...
 
 // Our worker Saga: will perform the async increment task
 export function* incrementAsync() {
